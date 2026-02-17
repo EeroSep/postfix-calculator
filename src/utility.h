@@ -9,6 +9,7 @@ void instructions() {
     std::cout << "Type '+', '-', '*', '/' to perform operations." << std::endl;
     std::cout << "Type 'x' to exchange the top two numbers on the stack." << std::endl;
     std::cout << "Type 's' to sum all numbers on the stack." << std::endl;
+    std::cout << "Type 'a' to compute the average of all numbers on the stack." << std::endl;
     std::cout << "Type 'q' to quit the program." << std::endl;
 }
     

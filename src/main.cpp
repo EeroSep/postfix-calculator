@@ -14,14 +14,15 @@ char get_command()
       command = tolower(command);
       if (command == '?' || command == '=' || command == '+' ||
           command == '-' || command == '*' || command == '/' ||
-          command == 'q' || command == 'x' || command == 's') waiting = false;
+          command == 'q' || command == 'x' || command == 's' ||
+          command == 'a') waiting = false;
 
 
       else {
          std::cout << "Please enter a valid command:"   << std::endl
               << "[?]push to stack   [=]print top" << std::endl
               << "[+] [-] [*] [/]   are arithmetic operations" << std::endl
-              << "[x]Exchange [s]sum" << std::endl
+              << "[x]Exchange [s]sum [a]average" << std::endl
               << "[Q]uit." << std::endl;
       }
    }
@@ -31,6 +32,7 @@ bool do_command(char command, Extended_stack &stack)
 {
    double p, q;
    double sum = 0;
+   int count = 0;
    switch (command){
    case '?':
     std::cout << "Enter a real number: " << std::flush;
@@ -159,7 +161,20 @@ bool do_command(char command, Extended_stack &stack)
         std::cout << "Stack overflow, sum lost." << std::endl;
     }
     break;
-
+    case 'a':
+    count = stack.size();
+    if (stack.top(p) == underflow) {
+        std::cout << "Stack empty." << std::endl;
+        break;
+    }
+    while (stack.top(p) != underflow) {
+        sum += p;
+        stack.pop();
+    }
+    if (stack.push(sum / count) == overflow) {
+        std::cout << "Stack overflow, average lost." << std::endl;
+    }
+    break;
     default:
         std::cout << "Command not implemented." << std::endl;
     break;
