@@ -2,6 +2,9 @@
 #include "Extended_stack.h"
 #include "utility.h"
 #include <cmath>
+#include <string>
+#include <vector>
+#include <sstream>
 
 char get_command()
 {
@@ -234,13 +237,37 @@ bool do_command(char command, Extended_stack &stack)
     return true;
 }
 
-int main() {
-    
-    Extended_stack stored_numbers;
-    introduction();
-    instructions();
-    while (do_command(get_command(), stored_numbers));
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        std::cout << "Usage: laskin -p for prompts or laskin RPN" << std::endl;
+        return 1;
+    }
 
+    Extended_stack stored_numbers;
+
+    if (std::string(argv[1]) == "-p") {
+        introduction();
+        instructions();
+        while (do_command(get_command(), stored_numbers));
+        return 0;
+    }
+    std::istringstream iss(argv[1]);
+    std::string token;
+    while (iss >> token) {
+        try {
+            double num = std::stod(token);
+            if (stored_numbers.push(num) == overflow) {
+                std::cout << "Stack overflow, number lost." << std::endl;
+            }
+        }
+        catch (const std::invalid_argument&) {
+            for (char command : token) {
+                if (!do_command(command, stored_numbers)) {
+                    return 0;
+                }
+            }
+        }
+    }
 
     return 0;
 }
