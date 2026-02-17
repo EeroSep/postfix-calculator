@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Extended_stack.h"
 #include "utility.h"
-
+#include <cmath>
 
 char get_command()
 {
@@ -15,14 +15,15 @@ char get_command()
       if (command == '?' || command == '=' || command == '+' ||
           command == '-' || command == '*' || command == '/' ||
           command == 'q' || command == 'x' || command == 's' ||
-          command == 'a') waiting = false;
+          command == 'a' || command == '%' || command == '^' ||
+          command == 'v') waiting = false;
 
 
       else {
          std::cout << "Please enter a valid command:"   << std::endl
               << "[?]push to stack   [=]print top" << std::endl
               << "[+] [-] [*] [/]   are arithmetic operations" << std::endl
-              << "[x]Exchange [s]sum [a]average" << std::endl
+              << "[x]Exchange [s]sum [a]average [%]modulo [^]power [v]square root" << std::endl
               << "[Q]uit." << std::endl;
       }
    }
@@ -125,6 +126,7 @@ bool do_command(char command, Extended_stack &stack)
         }
     }
     break;
+
     case 'q':
         std::cout << "Calculation finished." << std::endl;
         return false;
@@ -147,8 +149,8 @@ bool do_command(char command, Extended_stack &stack)
         }
     }
     break;
+
     case 's':
-    
     if (stack.top(p) == underflow) {
         std::cout << "Stack empty." << std::endl;
         break;
@@ -161,6 +163,7 @@ bool do_command(char command, Extended_stack &stack)
         std::cout << "Stack overflow, sum lost." << std::endl;
     }
     break;
+
     case 'a':
     count = stack.size();
     if (stack.top(p) == underflow) {
@@ -173,6 +176,55 @@ bool do_command(char command, Extended_stack &stack)
     }
     if (stack.push(sum / count) == overflow) {
         std::cout << "Stack overflow, average lost." << std::endl;
+    }
+    break;
+
+    case '%':
+    if (stack.top(p) == underflow) {
+        std::cout << "Stack empty." << std::endl;
+        break;
+    }
+    stack.pop();
+    if (stack.top(q) == underflow) {
+        std::cout << "Stack has only one number." << std::endl;
+        stack.push(p);
+        break;
+    }
+    stack.pop();
+    if (p == 0) {
+        std::cout << "Division by zero." << std::endl;
+    }
+    else if (stack.push(std::fmod(q, p)) == overflow) {
+        std::cout << "Stack overflow, result lost." << std::endl;
+    }
+    break;
+    case '^':
+    if (stack.top(p) == underflow) {
+        std::cout << "Stack empty." << std::endl;
+        break;
+    }
+    stack.pop();
+    if (stack.top(q) == underflow) {
+        std::cout << "Stack has only one number." << std::endl;
+        stack.push(p);
+        break;
+    }
+    stack.pop();
+    if (stack.push(std::pow(q, p)) == overflow) {
+        std::cout << "Stack overflow, result lost." << std::endl;
+    }
+    break;
+    case 'v':
+    if (stack.top(p) == underflow) {
+        std::cout << "Stack empty." << std::endl;
+        break;
+    }
+    stack.pop();
+    if (p < 0) {
+        std::cout << "Cannot take square root of a negative number." << std::endl;
+    }
+    else if (stack.push(std::sqrt(p)) == overflow) {
+        std::cout << "Stack overflow, result lost." << std::endl;
     }
     break;
     default:
