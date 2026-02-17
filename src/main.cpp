@@ -239,7 +239,7 @@ bool do_command(char command, Extended_stack &stack)
 
 int main(int argc, char *argv[]) {
     if (argc != 2) {
-        std::cout << "Usage: laskin -p for prompts or laskin RPN" << std::endl;
+        std::cout << "Usage: laskin -p for prompts or laskin 'RPN'" << std::endl;
         return 1;
     }
 
@@ -268,6 +268,5 @@ int main(int argc, char *argv[]) {
             }
         }
     }
-
     return 0;
 }
