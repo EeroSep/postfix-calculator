@@ -266,8 +266,8 @@ int main(int argc, char *argv[]) {
                     return 0;
                 }
             }
-            do_command('=', stored_numbers);
-        }
+        }  
     }
+    do_command('=', stored_numbers);
     return 0;
 }
